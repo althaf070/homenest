@@ -16,6 +16,7 @@ const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
   useEffect(() => {
     setGridView(true);
   }, [setGridView]);
+
   const handleDeleteClick = () => {
     if (window.confirm("Are you sure you want to delete this property?")) {
       onDelete(property.id);
@@ -56,6 +57,7 @@ const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
                   Edit
                   </Dropdown.Item>
                   <Dropdown.Item  onClick={handleDeleteClick} className="text-red-500">
+                    {/* add an modeal asking do you want to delte */}
                       Delete
                   </Dropdown.Item>
                 </Dropdown>

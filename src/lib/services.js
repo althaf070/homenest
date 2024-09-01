@@ -1,5 +1,6 @@
-import { collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore"
+import { collection, deleteDoc, doc, getDoc, getDocs,addDoc } from "firebase/firestore"
 import { db } from "../config/firebase"
+
 // fetching all properties
 
 const propertiesRef = collection(db, "properties");
@@ -40,6 +41,7 @@ try {
   if(docSnap.exists()){
     const properties = docSnap.data()
     return properties
+  
   }else {
     alert("No properties found")
   }
@@ -47,3 +49,29 @@ try {
   console.log(error.message);
 }
 }
+
+// Booking
+
+// export const addAppointment = async(msg,date,propertyid,propertyownerid,bookerid) => {
+// }
+export const addAppointment = async (userid,propertyid,message,date,propertyOwnerId) => {
+
+  const currentDate = new Date();
+  const formattedTime = currentDate.toLocaleTimeString();
+  const appointmentref = collection(db, "appointments");
+  try {
+   
+    const appointmentRef =await addDoc(appointmentref,{
+      bookedUserId: userid, 
+      bookedpropertyId: propertyid, 
+      date:date,
+      time: formattedTime,
+      message: message,
+      status: "pending",
+      propertyOwnerId:propertyOwnerId,
+    })
+    console.log('Appointment added with ID:', appointmentRef.id);
+  } catch (error) {
+    console.error('Error adding appointment:', error);
+  }
+};
