@@ -48,11 +48,11 @@ export function Nav() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="#" active>
+        <Navbar.Link href="#">
           Home
         </Navbar.Link>
-        <Navbar.Link href="#">Propeties</Navbar.Link>
-        <Navbar.Link href="#">Services</Navbar.Link>
+        <Navbar.Link href="/properties">Propeties</Navbar.Link>
+        <Navbar.Link href="#property">Services</Navbar.Link>
         <Navbar.Link href="#">Contact Us</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

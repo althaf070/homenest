@@ -30,7 +30,7 @@ const PropertiesList = () => {
     }
 };
   return (
-    <div className={gridView ? "grid place-items-center md:grid-cols-5 mb-10 sm:grid-cols-2" : ""}>
+    <div className="grid place-items-center md:grid-cols-5 mb-10 sm:grid-cols-2">
       {properties.map((property) => (
         <PropertiesCard
           property={property}

@@ -7,6 +7,7 @@ import AddProperty from "./pages/AddProperty";
 import EditProperty from "./pages/EditProperty";
 import PrivateRoute from "./lib/PrivateRoute";
 import PropertyDetails from "./pages/PropertyDetails";
+import PropertiesPage from "./pages/PropertiesPage";
 
 export default function App() {
   return <>
@@ -15,6 +16,7 @@ export default function App() {
   <Routes>
     <Route element={<Home/>} path="/"/>
     <Route element={<Auth/>} path="/auth"/>
+    <Route element={<PropertiesPage/>} path="/properties"/>
    <Route element={<PrivateRoute/>}>
    <Route element={<AddProperty/>} path="/add-proprty"/>
     <Route element={<EditProperty/>} path="/edit-proprty/:pid"/>

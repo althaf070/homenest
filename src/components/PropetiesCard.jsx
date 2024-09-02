@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useAuth } from "../lib/useAuth";
-import { Button, Card, Dropdown } from "flowbite-react";
+import { Button, Card, Dropdown,Badge } from "flowbite-react";
 import tower from "../assets/tower.png";
 import { useEffect, useState } from "react";
+import Loader from "./Loader";
 
 
 const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
@@ -14,8 +15,12 @@ const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
   const { user } = useAuth();
 
   useEffect(() => {
-    setGridView(true);
-  }, [setGridView]);
+    if(gridView){
+      setGridView(true);
+    }else{
+      setGridView(false)
+    }
+  }, [gridView,setGridView]);
 
   const handleDeleteClick = () => {
     if (window.confirm("Are you sure you want to delete this property?")) {
@@ -23,7 +28,7 @@ const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
     }
   };
 
-  if(!property) return <h1 className="text-4xl p-2 font-semibold">No Property Found</h1>
+  if(!property) return <Loader/>
   return (
     <>
       {gridView ? (
@@ -67,20 +72,36 @@ const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
         </Card>
       ) : (
         <Card
-          className="max-w-sm"
+          className="w-full cursor-pointer max-h-96 hover:scale-105 duration-500"
           imgSrc={tower}
           horizontal
           onError={(e) => {
             e.target.onerror = null;
             e.target.src = tower;
           }}
+          href={`/propertinfo/${property.id}`}
         >
-          <h5 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            {property.title.toUpperCase()}
+          <h5 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white capitalize">
+            {property.title}
           </h5>
-          <p className="font-normal text-gray-700 dark:text-gray-400">
-            {property.description}
+          <p className="text-gray-700 dark:text-gray-300">
+            About Property:{property.description}
           </p>
+          <p className="text-gray-700 dark:text-gray-300">
+            Type:{property.type}
+          </p>
+          <p className="text-gray-700 dark:text-gray-300">
+            Location:{property.address.city},{property.address.state}
+          </p>
+          {property.available ? (
+                  <Badge color="failure" className="w-40">
+                    Property Currently Not Available
+                  </Badge>
+                ) : (
+                  <Badge color="success" className="w-40">
+                    Property Available
+                  </Badge>
+                )}
         </Card>
       )}
     </>
