@@ -54,7 +54,7 @@ const MyAppointments = () => {
                 {item.propertyName}
               </Table.Cell>
               <Table.Cell>{item.date}</Table.Cell>
-              <Table.Cell className="capitalize">{item.status == "pending" ? <Badge color="warning">{item.status}</Badge> :item.status == "success" ? <Badge color="success">{item.status}</Badge> : <Badge color="success">{item.status}</Badge>}</Table.Cell>
+              <Table.Cell className="capitalize">{item.status == "pending" ? <Badge color="warning">{item.status}</Badge> :item.status == "scheduled" ? <Badge color="success">{item.status}</Badge> : <Badge color="failure">{item.status}</Badge>}</Table.Cell>
               <Table.Cell>{item.apdate? item.apdate :"No Appointment Scheduled"}</Table.Cell>
               <Table.Cell>
                 <Button color={"failure"} onClick={()=> deleteAppointment(item.id)}>Cancel</Button>

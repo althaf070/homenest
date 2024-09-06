@@ -31,7 +31,7 @@ const PropertiesCard = ({ property,  gridView,onDelete }) => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-         <div className="h-[290px] w-full">
+         <div className="h-[290px] w-full overflow-hidden">
          <img src={property.imageURL ? property.imageURL : tower} alt={property.title} className="h-full w-full object-cover" onError={(e) => {
             e.target.onerror = null;
             e.target.src = tower;

@@ -127,3 +127,12 @@ try {
   console.log(error);
 }
 }
+
+export const scheduleAppointment=async(id) => {
+  try {
+    
+  } catch (error) {
+    console.log(error)
+    
+  }
+}
