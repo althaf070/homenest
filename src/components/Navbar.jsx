@@ -27,7 +27,9 @@ export function Nav() {
                 {user?.email}
               </span>
             </Dropdown.Header>
-            <Dropdown.Item>My Propeties</Dropdown.Item>
+            <Dropdown.Item href="/myproperties">My Propeties</Dropdown.Item>
+            <Dropdown.Item href="/myappointments">Appointments</Dropdown.Item>
+            <Dropdown.Item href="/queries">Queries</Dropdown.Item>
             <Dropdown.Item>My Wishlist</Dropdown.Item>
             <Dropdown.Item>
               <Link to="/add-proprty">
@@ -48,7 +50,7 @@ export function Nav() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="#">
+        <Navbar.Link href="/">
           Home
         </Navbar.Link>
         <Navbar.Link href="/properties">Propeties</Navbar.Link>

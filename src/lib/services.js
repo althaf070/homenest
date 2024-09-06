@@ -1,10 +1,10 @@
-import { collection, deleteDoc, doc, getDoc, getDocs,addDoc } from "firebase/firestore"
+import { collection, deleteDoc, doc, getDoc, getDocs,addDoc,query, where } from "firebase/firestore"
 import { db } from "../config/firebase"
 
 // fetching all properties
 
 const propertiesRef = collection(db, "properties");
-
+const appointmentref = collection(db, "appointments");
 
 export const fetchAllProperties = async () => {
     try {
@@ -50,28 +50,80 @@ try {
 }
 }
 
+export const fethPropertyByOwnerId = async(userid)=> {
+  try {
+
+    const q = query(propertiesRef,where('ownerId', '==',userid))
+    const querySnapshot = await getDocs(q);
+    const fetchedProperties = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return fetchedProperties
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // Booking
 
-// export const addAppointment = async(msg,date,propertyid,propertyownerid,bookerid) => {
-// }
-export const addAppointment = async (userid,propertyid,message,date,propertyOwnerId) => {
+export const addAppointment = async (userid,propertyid,message,date,propertyOwnerId,propertyName) => {
 
   const currentDate = new Date();
-  const formattedTime = currentDate.toLocaleTimeString();
-  const appointmentref = collection(db, "appointments");
+  // const formattedTime = currentDate.toLocaleTimeString();
+
   try {
-   
     const appointmentRef =await addDoc(appointmentref,{
       bookedUserId: userid, 
       bookedpropertyId: propertyid, 
       date:date,
-      time: formattedTime,
+      time: currentDate,
       message: message,
       status: "pending",
       propertyOwnerId:propertyOwnerId,
+      propertyName:propertyName
     })
     console.log('Appointment added with ID:', appointmentRef.id);
   } catch (error) {
     console.error('Error adding appointment:', error);
   }
 };
+
+export const bookedAppointments = async(userid)=> {
+try {
+  const q = query(appointmentref,where('bookedUserId', '==',userid))
+  const querySnapshot = await getDocs(q);
+  const fetchAppointments = querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return fetchAppointments
+} catch (error) {
+  console.log(error);
+  
+}
+}
+
+export const deleteBookedAppointment = async(id) => {
+  const appointmentyDoc = doc(db,"appointments",id)
+  try {
+    await deleteDoc(appointmentyDoc)
+   console.log("Appointment deleted");
+   } catch (error) {
+       console.log(error.message);
+   }
+}
+
+export const appointmentPropertyOwner= async(ownerId) => {
+try {
+  const q = query(appointmentref,where('propertyOwnerId','==',ownerId))
+  const querySnapshot = await getDocs(q);
+  const fetchAppointments = querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return fetchAppointments
+} catch (error) {
+  console.log(error);
+}
+}

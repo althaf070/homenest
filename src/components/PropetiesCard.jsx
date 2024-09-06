@@ -2,11 +2,11 @@
 import { useAuth } from "../lib/useAuth";
 import { Button, Card, Dropdown,Badge } from "flowbite-react";
 import tower from "../assets/tower.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Loader from "./Loader";
 
 
-const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
+const PropertiesCard = ({ property,  gridView,onDelete }) => {
   const truncatedTitle =
     property.title.length > 20
       ? `${property.title.substring(0, 20)}...`
@@ -14,14 +14,7 @@ const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { user } = useAuth();
 
-  useEffect(() => {
-    if(gridView){
-      setGridView(true);
-    }else{
-      setGridView(false)
-    }
-  }, [gridView,setGridView]);
-
+// *TODO change dropdown to fixed instead of hover
   const handleDeleteClick = () => {
     if (window.confirm("Are you sure you want to delete this property?")) {
       onDelete(property.id);
@@ -71,9 +64,10 @@ const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
           </div>
         </Card>
       ) : (
+       <div className="flex group transition-transform ease-in duration-500">
         <Card
-          className="w-full cursor-pointer max-h-96 hover:scale-105 duration-500"
-          imgSrc={tower}
+          className="w-[700px] cursor-pointer h-[230px] hover:scale-105 duration-500 my-3"
+          imgSrc={property.imageURL ? property.imageURL : tower}
           horizontal
           onError={(e) => {
             e.target.onerror = null;
@@ -81,6 +75,7 @@ const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
           }}
           href={`/propertinfo/${property.id}`}
         >
+          <div className="mb-3">
           <h5 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white capitalize">
             {property.title}
           </h5>
@@ -102,7 +97,28 @@ const PropertiesCard = ({ property, setGridView, gridView,onDelete }) => {
                     Property Available
                   </Badge>
                 )}
+                </div>
         </Card>
+        <div>
+       
+ {user?.uid == property.ownerId && (
+  <div  className="opacity-0 group-hover:opacity-100 ml-5">
+    <Dropdown
+      label="More Options"
+      inline
+    >
+      <Dropdown.Item href={`/edit-proprty/${property.id}`}>
+      Edit
+      </Dropdown.Item>
+      <Dropdown.Item  onClick={handleDeleteClick} className="text-red-500">
+        {/* add an modeal asking do you want to delte */}
+          Delete
+      </Dropdown.Item>
+    </Dropdown>
+  </div>
+)}
+        </div>
+        </div>
       )}
     </>
   );

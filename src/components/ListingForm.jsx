@@ -121,7 +121,7 @@ const [fileUpload, setFileUpload] = useState(null)
           contactinfo: {
             email: user.email,
             name: formData.contactName,
-            phno: formData.contactinfo.contactPhone 
+            phno: formData.contactPhone
 
           }
         });

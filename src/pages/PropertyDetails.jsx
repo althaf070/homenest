@@ -19,7 +19,7 @@ const PropertyDetails = () => {
   const [properties, setProperties] = useState(null);
   const [message, setMessage] = useState("");
   const [openModal, setOpenModal] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
   const [success, setSetsuccess] = useState(null);
   const { user } = useAuth();
 const navigate = useNavigate()
@@ -36,8 +36,17 @@ const navigate = useNavigate()
   }, []);
 
   const handleDatePickerChange = (date) => {
-    setSelectedDate(date);
-    console.log(date);
+    const formattedDate = formatDate(date); // Format the selected date
+    setSelectedDate(formattedDate); // Update state with formatted date
+    console.log('Selected Date:', formattedDate); // Log the formatted date
+  };
+
+  // Helper function to format date as "Sep 07 2024"
+  const formatDate = (date) => {
+    if (!date) return '';
+
+    const options = { month: 'short', day: '2-digit', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
   };
 
   const handleSubmitAppointment = async () => {
@@ -47,7 +56,8 @@ const navigate = useNavigate()
         pid,
         message,
         selectedDate,
-        properties.ownerId
+        properties.ownerId,
+        properties.title
       );
       setSetsuccess(true);
       setOpenModal(false);
@@ -55,7 +65,13 @@ const navigate = useNavigate()
       console.log(error);
     }
   };
-  
+  useEffect(() => {
+  if(success) {
+    setTimeout(() => {
+      setSetsuccess(false)
+    }, 3000);
+  }
+  }, [success])
   //*TODO handle waiting time when deleting
   //*TODO add chat functionality
   //*TODO add toast to all successfull operations
@@ -216,8 +232,11 @@ const navigate = useNavigate()
                     <Label value="Pick Your Date" />
                   </div>
                   <Datepicker
+                 minDate={new Date()}
+                  value={selectedDate}
                   onSelectedDateChanged={handleDatePickerChange}
                   />
+                   <p>Selected Date: {selectedDate ? selectedDate.toString() : 'No date selected'}</p>
                 </div>
                 <div className="w-full">
                   <Button onClick={handleSubmitAppointment}>Submit</Button>

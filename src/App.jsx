@@ -8,6 +8,9 @@ import EditProperty from "./pages/EditProperty";
 import PrivateRoute from "./lib/PrivateRoute";
 import PropertyDetails from "./pages/PropertyDetails";
 import PropertiesPage from "./pages/PropertiesPage";
+import MyAppointments from "./pages/MyAppointments";
+import MyProperties from "./pages/MyProperties";
+import BookerQueries from "./pages/BookerQueries";
 
 export default function App() {
   return <>
@@ -19,6 +22,9 @@ export default function App() {
     <Route element={<PropertiesPage/>} path="/properties"/>
    <Route element={<PrivateRoute/>}>
    <Route element={<AddProperty/>} path="/add-proprty"/>
+   <Route element={<MyAppointments/>} path="/myappointments"/>
+   <Route element={<MyProperties/>} path="/myproperties"/>
+   <Route element={<BookerQueries/>} path="/queries"/>
     <Route element={<EditProperty/>} path="/edit-proprty/:pid"/>
     <Route element={<PropertyDetails/>} path="/propertinfo/:pid"/>
    </Route>

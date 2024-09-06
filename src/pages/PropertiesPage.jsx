@@ -4,8 +4,7 @@ import { deleteMyProperty, fetchAllProperties } from "../lib/services";
 
 const PropertiesPage = () => {
     const [properties, setProperties] = useState([]);
-    const [gridView, setGridView] = useState(false);
-
+   
     useEffect(() => {
         const fetchData = async () => {
           try {
@@ -33,8 +32,7 @@ const PropertiesPage = () => {
       <PropertiesCard
         property={property}
         key={property.id}
-        setGridView={setGridView}
-        gridView={gridView}
+        gridView={false}
         onDelete = {handleDeleteProperty}
       />
     ))}
