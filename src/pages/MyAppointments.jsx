@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../lib/useAuth";
 import { bookedAppointments, deleteBookedAppointment } from "../lib/services";
 import { Table,Button,Badge } from "flowbite-react";
+import { Link } from "react-router-dom";
 // Retrieve the appointments I booked
 // *TODO fix date issue
 const MyAppointments = () => {
@@ -50,12 +51,12 @@ const MyAppointments = () => {
           <Table.Body className="divide-y">
             {appointments.map((item,i) => (
               <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800" key={i}>
-              <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                {item.propertyName}
+              <Table.Cell className="whitespace-nowrap font-medium text-blue-700 underline capitalize">
+                <Link to={`/propertinfo/${item.bookedpropertyId}`}>{item.propertyName}</Link>
               </Table.Cell>
               <Table.Cell>{item.date}</Table.Cell>
-              <Table.Cell className="capitalize">{item.status == "pending" ? <Badge color="warning">{item.status}</Badge> :item.status == "scheduled" ? <Badge color="success">{item.status}</Badge> : <Badge color="failure">{item.status}</Badge>}</Table.Cell>
-              <Table.Cell>{item.apdate? item.apdate :"No Appointment Scheduled"}</Table.Cell>
+              <Table.Cell className="capitalize">{item.status == "pending" ? <Badge color="warning">{item.status}</Badge> :item.status == "scheduled" ? <Badge color="success">{item.status}</Badge> :item.status == 'visited' ? <Badge color="info">{item.status}</Badge> : <Badge color="failure">{item.status}</Badge>}</Table.Cell>
+              <Table.Cell>{item.appointmentDate? `${item.appointmentDate} ${item.startTime}-${item.endTime}` :"No Appointment Scheduled"}</Table.Cell>
               <Table.Cell>
                 <Button color={"failure"} onClick={()=> deleteAppointment(item.id)}>Cancel</Button>
               </Table.Cell>

@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { addAppointment, deleteMyProperty, fetchPropertyById } from "../lib/services";
+import {
+  addAppointment,
+  deleteMyProperty,
+  fetchPropertyById
+} from "../lib/services";
 import Loader from "../components/Loader";
 import tower from "../assets/tower.png";
 import {
@@ -13,6 +17,13 @@ import {
 } from "flowbite-react";
 import { useAuth } from "../lib/useAuth";
 import Toaster from "../components/Toaster";
+import {
+  collection,
+  getDocs,
+  query,
+  where
+} from "firebase/firestore";
+import { db } from "../config/firebase";
 
 const PropertyDetails = () => {
   const { pid } = useParams();
@@ -21,8 +32,10 @@ const PropertyDetails = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
   const [success, setSetsuccess] = useState(null);
+  const [hasBooked, setHasBooked] = useState(false);
   const { user } = useAuth();
-const navigate = useNavigate()
+
+  const navigate = useNavigate();
   const msgInputRef = useRef(null);
 
   const fetchItem = async () => {
@@ -36,17 +49,34 @@ const navigate = useNavigate()
   }, []);
 
   const handleDatePickerChange = (date) => {
-    const formattedDate = formatDate(date); // Format the selected date
-    setSelectedDate(formattedDate); // Update state with formatted date
-    console.log('Selected Date:', formattedDate); // Log the formatted date
+    const formattedDate = formatDate(date); 
+    setSelectedDate(formattedDate); 
   };
 
   // Helper function to format date as "Sep 07 2024"
   const formatDate = (date) => {
-    if (!date) return '';
+    if (!date) return "";
 
-    const options = { month: 'short', day: '2-digit', year: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
+    const options = { month: "short", day: "2-digit", year: "numeric" };
+    return date.toLocaleDateString("en-US", options);
+  };
+  const checkUserBooking = async () => {
+    if (user) {
+      // Query the 'appointments' collection for any document where 'bookedUserId' matches the current user
+      const q = query(
+        collection(db, "appointments"),
+        where("bookedUserId", "==", user.uid),
+        where("bookedpropertyId", "==", pid) 
+      );
+      
+      const querySnapshot = await getDocs(q); 
+      if (!querySnapshot.empty) {
+        setHasBooked(true); console.log("booked");
+        
+      } else {
+        setHasBooked(false); 
+      }
+    }
   };
 
   const handleSubmitAppointment = async () => {
@@ -61,25 +91,31 @@ const navigate = useNavigate()
       );
       setSetsuccess(true);
       setOpenModal(false);
+      checkUserBooking();
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-  if(success) {
-    setTimeout(() => {
-      setSetsuccess(false)
-    }, 3000);
-  }
-  }, [success])
+    checkUserBooking();
+  }, [user,pid]);
+
+
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        setSetsuccess(false);
+      }, 3000);
+    }
+  }, [success]);
   //*TODO handle waiting time when deleting
   //*TODO add chat functionality
   //*TODO add toast to all successfull operations
 
   const handleDeleteProperty = async () => {
-    await deleteMyProperty(pid)
-    navigate("/")
-  }
+    await deleteMyProperty(pid);
+    navigate("/");
+  };
   return (
     <section className="m-5 bg-[#1d6b73] min-h-screen rounded-2xl shadow-xl shadow-gray-800 p-3">
       {properties ? (
@@ -116,24 +152,29 @@ const navigate = useNavigate()
                   </Badge>
                 )}
                 {success && (
-                  <div className="absolute bottom-10 -right-16 ">
+                  <div className="absolute bottom-10 md:-right-16 ">
                     <Toaster message={"Appointment Sucessfull"} />
                   </div>
                 )}
-                {properties.ownerId == user.uid ?(
-                 <div className="flex gap-2 my-2">
-                 <Button color={"warning"} href={`/edit-proprty/${pid}`}>Edit Property</Button>
-                 <Button color={"failure"} onClick={handleDeleteProperty}>Delete Property</Button>
-                 </div>
-                ):(
-                  <Button
-                  className="my-4"
-                  color="success"
-                  onClick={() => setOpenModal(true)}
-                >
-                  Book AppointMent
-                </Button>
+                {properties.ownerId == user.uid && (
+                  <div className="flex gap-2 my-2">
+                    <Button color={"warning"} href={`/edit-proprty/${pid}`}>
+                      Edit Property
+                    </Button>
+                    <Button color={"failure"} onClick={handleDeleteProperty}>
+                      Delete Property
+                    </Button>
+                  </div>
                 )}
+                {!hasBooked ? (
+                  <Button
+                    className="my-4"
+                    color="success"
+                    onClick={() => setOpenModal(true)}
+                  >
+                    Book Appointment
+                  </Button>
+                ) : <Button className="mt-3">Track Booking Status</Button>}
 
                 {/* TODO -Chat functionality*/}
               </div>
@@ -232,11 +273,16 @@ const navigate = useNavigate()
                     <Label value="Pick Your Date" />
                   </div>
                   <Datepicker
-                 minDate={new Date()}
-                  value={selectedDate}
-                  onSelectedDateChanged={handleDatePickerChange}
+                    minDate={new Date()}
+                    value={selectedDate}
+                    onSelectedDateChanged={handleDatePickerChange}
                   />
-                   <p>Selected Date: {selectedDate ? selectedDate.toString() : 'No date selected'}</p>
+                  <p>
+                    Selected Date:{" "}
+                    {selectedDate
+                      ? selectedDate.toString()
+                      : "No date selected"}
+                  </p>
                 </div>
                 <div className="w-full">
                   <Button onClick={handleSubmitAppointment}>Submit</Button>

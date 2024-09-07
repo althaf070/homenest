@@ -1,27 +1,26 @@
-import { useState } from 'react';
-import { Modal, Button, Datepicker } from 'flowbite-react'; // Assuming you're using Flowbite components
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import { Modal, Button, Datepicker } from "flowbite-react"; 
 
-const DateTimePickerModal = () => {
+const DateTimePickerModal = ({ onSubmit, setIsSubmitted }) => {
   const [openModal, setOpenModal] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [startTime, setStartTime] = useState('09:00');
-  const [endTime, setEndTime] = useState('10:00');
+  const [selectedDate, setSelectedDate] = useState(new Date().toDateString());
+  const [startTime, setStartTime] = useState("09:00");
+  const [endTime, setEndTime] = useState("10:00");
 
   const handleDatePickerChange = (date) => {
     setSelectedDate(date);
   };
 
   const handleSubmit = () => {
-    console.log('Selected Date:', selectedDate);
-    console.log('Start Time:', startTime);
-    console.log('End Time:', endTime);
-    setOpenModal(false);
+    onSubmit(selectedDate, startTime, endTime); // Send date and time to parent
+    setIsSubmitted(true)
+    setOpenModal(false); // Close modal after submission
   };
 
   return (
     <div>
-      {/* Button to open the modal */}
-      <Button onClick={() => setOpenModal(true)}>Open Date & Time Picker</Button>
+      <Button onClick={() => setOpenModal(true)}>Set Meeting Time</Button>
 
       <Modal
         dismissible
@@ -31,14 +30,12 @@ const DateTimePickerModal = () => {
         <Modal.Header>Set Time & Date</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
-            {/* Date Picker */}
             <Datepicker
               minDate={new Date()}
               value={selectedDate}
               onSelectedDateChanged={handleDatePickerChange}
             />
-            
-            {/* Time Selection */}
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label htmlFor="start-time" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

@@ -81,7 +81,7 @@ export const addAppointment = async (userid,propertyid,message,date,propertyOwne
       message: message,
       status: "pending",
       propertyOwnerId:propertyOwnerId,
-      propertyName:propertyName
+      propertyName:propertyName,
     })
     console.log('Appointment added with ID:', appointmentRef.id);
   } catch (error) {
@@ -128,11 +128,3 @@ try {
 }
 }
 
-export const scheduleAppointment=async(id) => {
-  try {
-    
-  } catch (error) {
-    console.log(error)
-    
-  }
-}
