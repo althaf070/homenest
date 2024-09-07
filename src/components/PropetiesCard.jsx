@@ -66,7 +66,7 @@ const PropertiesCard = ({ property,  gridView,onDelete }) => {
       ) : (
        <d>
         <Card
-          className="w-[700px] cursor-pointer h-[230px] relative"
+          className="md:w-[700px] cursor-pointer md:h-[230px]"
           imgSrc={property.imageURL ? property.imageURL : tower}
           horizontal
           onError={(e) => {
