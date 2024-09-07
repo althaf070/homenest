@@ -122,18 +122,20 @@ const PropertyDetails = () => {
           <h1 className="md:text-4xl font-semibold capitalize text-[whiteSmoke] m-3">
             {properties.title}
           </h1>
-          <div className="grid md:grid-cols-2 ">
-            <div className="">
+          <div className="grid md:grid-cols-3 md:gap-20 gap-3">
+            <div className="col-span-1">
+              <div className="md:h-[500px] md:w-[500px] h-[300px] w-[300px]">
               <img
                 src={properties.imageURL || tower}
                 alt={properties.title}
-                className="rounded-lg shadow-xl"
+                className="rounded-lg shadow-xl w-full h-full"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = tower;
                 }}
               />
-              <div className="bg-gradient-to-r from-slate-500 to-teal-700 p-4 text-[whiteSmoke] my-4 rounded-lg text-md relative">
+              </div>
+              <div className="bg-gradient-to-r from-slate-500 to-teal-700 p-4 text-[whiteSmoke] my-4 rounded-lg text-md relative md:w-[500px] w-[300px]">
                 <p>About Property:{properties.description}</p>
                 <p>Property Type:{properties.type}</p>
                 <p className="m-2">
@@ -178,9 +180,9 @@ const PropertyDetails = () => {
                 {/* TODO -Chat functionality*/}
               </div>
             </div>
-            <div className="grid grid-rows-3 md:p-10 mt-5 md:m-[-25px] gap-5">
+            <div className="grid md:col-span-2 grid-rows-3 md:p-10 mt-5 md:m-[-25px] gap-5 w-full">
               {/* amneties */}
-              <div className="rounded-lg shadow-lg bg-gradient-to-r from-slate-700 to-slate-500 text-white p-3">
+              <div className="rounded-lg shadow-lg bg-gradient-to-r from-slate-700 to-slate-500 text-white p-3 overflow-hidden">
                 <h1 className="text-2xl font-semibold tracking-wide">
                   Price:{properties.price} Rs.
                 </h1>
