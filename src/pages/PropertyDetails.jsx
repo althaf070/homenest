@@ -53,7 +53,6 @@ const PropertyDetails = () => {
     setSelectedDate(formattedDate); 
   };
 
-  // Helper function to format date as "Sep 07 2024"
   const formatDate = (date) => {
     if (!date) return "";
 
@@ -174,7 +173,7 @@ const PropertyDetails = () => {
                   >
                     Book Appointment
                   </Button>
-                ) : <Button className="mt-3">Track Booking Status</Button>}
+                ) : <Button className="mt-3 w-[200px]" color={"dark"} href="/myappointments">Track Booking Status</Button>}
 
                 {/* TODO -Chat functionality*/}
               </div>

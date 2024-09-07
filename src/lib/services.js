@@ -128,3 +128,17 @@ try {
 }
 }
 
+export const fetchPropertyCategory = async(category)=> {
+  try {
+   const q =query(propertiesRef,where("type",'==',category))
+   const querySnapshot = await getDocs(q);
+   const fetchProperty = querySnapshot.docs.map(doc => ({
+     id: doc.id,
+     ...doc.data(),
+   }));
+   return fetchProperty
+  } catch (error) {
+    console.log(error);
+    
+  }
+}

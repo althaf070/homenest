@@ -1,23 +1,37 @@
+/* eslint-disable react/prop-types */
 // PropetiesList.js
 import { useEffect, useState } from "react";
 import PropertiesCard from "./PropetiesCard";
-import { deleteMyProperty, fetchAllProperties } from "../lib/services";
+import { deleteMyProperty, fetchAllProperties, fetchPropertyCategory } from "../lib/services";
 
-const PropertiesList = () => {
+const PropertiesList = ({query}) => {
   const [properties, setProperties] = useState([]);
-  // const [gridView, setGridView] = useState(false);
+
+  const fetchData = async () => {
+    try {
+      const propertiesData = await fetchAllProperties();
+      setProperties(propertiesData);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+  
+  const propertyByCategory = async (qw) => {
+    try {
+      const propertiesData = await fetchPropertyCategory(qw);
+      setProperties(propertiesData);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const propertiesData = await fetchAllProperties();
-        setProperties(propertiesData);
-      } catch (error) {
-        console.log(error.message);
-      }
+    if (query === 'All') {
+      fetchData();
+    } else {
+      propertyByCategory(query);
     }
-    fetchData()
-  }, []);
+  }, [query]); 
 
   const handleDeleteProperty = async (propertyId) => {
     try {

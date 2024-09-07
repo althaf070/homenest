@@ -30,7 +30,6 @@ export function Nav() {
             <Dropdown.Item href="/myproperties">My Propeties</Dropdown.Item>
             <Dropdown.Item href="/myappointments">Appointments</Dropdown.Item>
             <Dropdown.Item href="/queries">Queries</Dropdown.Item>
-            <Dropdown.Item>My Wishlist</Dropdown.Item>
             <Dropdown.Item>
               <Link to="/add-proprty">
               Add Property
@@ -54,8 +53,8 @@ export function Nav() {
           Home
         </Navbar.Link>
         <Navbar.Link href="/properties">Propeties</Navbar.Link>
-        <Navbar.Link href="#property">Services</Navbar.Link>
-        <Navbar.Link href="#">Contact Us</Navbar.Link>
+        <Navbar.Link href="/myappointments">Appointments</Navbar.Link>
+        <Navbar.Link href="/queries">Queries</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Label, TextInput, Select, Checkbox, Button, FileInput } from "flowbite-react";
+import { Label, TextInput, Select, Checkbox, Button, FileInput, Spinner } from "flowbite-react";
 import {
   MdTitle,
   MdDescription,
@@ -27,6 +27,7 @@ import { ref,uploadBytes,getDownloadURL } from "firebase/storage";
 const ListingForm = ({ existingData, isEditMode }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [loadSate, setLoadSate] = useState(false)
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -95,8 +96,9 @@ const [fileUpload, setFileUpload] = useState(null)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const imageUrl = await uploadFile()
+    setLoadSate(true)
     try {
+      const imageUrl = await uploadFile()
       if (isEditMode) {
         // Update existing property
         const propertyDoc = doc(db, "properties", existingData.id);
@@ -125,7 +127,7 @@ const [fileUpload, setFileUpload] = useState(null)
 
           }
         });
-     
+     setLoadSate(false)
         
       } else {
         await addDoc(propetiesref, {
@@ -152,6 +154,7 @@ const [fileUpload, setFileUpload] = useState(null)
             phno: formData.contactPhone
           }
         });
+        setLoadSate(false)
         uploadFile()
       }
       navigate("/");
@@ -159,6 +162,7 @@ const [fileUpload, setFileUpload] = useState(null)
       console.log(error.message);
     }
   };
+
 const uploadFile =async () => {
   if(!fileUpload) return
 try {
@@ -520,8 +524,11 @@ try {
                   terms and conditions
                 </a>
               </Label>
-              <Button type="submit" color={"success"}>
-                Submit Property
+              <Button type="submit" color={"success"} disabled={loadSate}>
+                {loadSate ? (
+                  <><Spinner aria-label="Spinner button example" size="sm" />
+        <span className="pl-3">Uploading...</span></>
+                ): "Submit Property"}
               </Button>
             </div>
           </div>

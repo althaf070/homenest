@@ -1,4 +1,4 @@
-export const  propertyCategories =['All','Apartments','Houses','Office Spaces','Shopping Complex']
+export const  propertyCategories =['All','apartment','House','Office Space','Retail Space','Land']
 
 export const amenitiesOptions = [
     'Parking',
@@ -13,7 +13,7 @@ export const amenitiesOptions = [
   ];
 
   export const propertyTypes = [
-    "Apartment",
+    "apartment",
     "Flat",
     "House",
     "Office Space",
@@ -22,7 +22,6 @@ export const amenitiesOptions = [
     "Penthouse",
     "Townhouse",
     "Condominium",
-    "Loft",
     "Cottage",
     "Farmhouse",
     "Bungalow",

@@ -41,7 +41,7 @@ const PropertiesCard = ({ property,  gridView,onDelete }) => {
             <h5 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white capitalize">
               {truncatedTitle}
             </h5>
-            <p>Proprty Type:{property.type}</p>
+            <p className="capitalize">Proprty Type:{property.type}</p>
             <h6>Rs:{property.price}</h6>
             <p>{property.size} Sqft.</p>
             <Button className="mb-2" href={`/propertinfo/${property.id}`}>View More</Button>
@@ -64,9 +64,9 @@ const PropertiesCard = ({ property,  gridView,onDelete }) => {
           </div>
         </Card>
       ) : (
-       <div className="flex group transition-transform ease-in duration-500">
+       <d>
         <Card
-          className="w-[700px] cursor-pointer h-[230px] hover:scale-105 duration-500 my-3"
+          className="w-[700px] cursor-pointer h-[230px] relative"
           imgSrc={property.imageURL ? property.imageURL : tower}
           horizontal
           onError={(e) => {
@@ -74,7 +74,7 @@ const PropertiesCard = ({ property,  gridView,onDelete }) => {
             e.target.src = tower;
           }}
           href={`/propertinfo/${property.id}`}
-        >
+        > 
           <div className="mb-3">
           <h5 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white capitalize">
             {property.title}
@@ -101,27 +101,30 @@ const PropertiesCard = ({ property,  gridView,onDelete }) => {
         </Card>
         <div>
        
- {user?.uid == property.ownerId && (
-  <div  className="opacity-0 group-hover:opacity-100 ml-5">
-    <Dropdown
-      label="More Options"
-      inline
-    >
-      <Dropdown.Item href={`/edit-proprty/${property.id}`}>
-      Edit
-      </Dropdown.Item>
-      <Dropdown.Item  onClick={handleDeleteClick} className="text-red-500">
-        {/* add an modeal asking do you want to delte */}
-          Delete
-      </Dropdown.Item>
-    </Dropdown>
-  </div>
-)}
+
         </div>
-        </div>
+        </d>
       )}
     </>
   );
 };
 
 export default PropertiesCard;
+
+
+// {user?.uid == property.ownerId && (
+//   <div  className="absolute top-0">
+//   <Dropdown
+//     label="More Options"
+//     inline
+//   >
+//     <Dropdown.Item href={`/edit-proprty/${property.id}`}>
+//     Edit
+//     </Dropdown.Item>
+//     <Dropdown.Item  onClick={handleDeleteClick} className="text-red-500">
+//       {/* add an modeal asking do you want to delte */}
+//         Delete
+//     </Dropdown.Item>
+//   </Dropdown>
+// </div>
+// )}

@@ -10,7 +10,7 @@ const Home = () => {
     <>
       <section
         id="home"
-        className="md:h-screen h-[90vh] w-full overflow-hidden relative shadow-lg mb-6"
+        className="md:h-screen h-[100vh] w-full overflow-hidden relative shadow-lg mb-6"
       >
         <div className="h-full w-full relative">
           <img
@@ -51,7 +51,7 @@ const Home = () => {
                   <div
                     key={i}
                     onClick={() => setCatlogs(category)}
-                    className={`cursor-pointer p-3 rounded-lg ${
+                    className={`cursor-pointer p-3 rounded-lg capitalize ${
                       catlogs === category ?
                       "bg-gray-700 text-white" : "bg-slate-200"
                     }`}
