@@ -122,7 +122,7 @@ const PropertyDetails = () => {
           <h1 className="md:text-4xl font-semibold capitalize text-[whiteSmoke] m-3">
             {properties.title}
           </h1>
-          <div className="grid md:grid-cols-3 md:gap-20 gap-3">
+          <div className="grid md:grid-cols-3 md:gap-20">
             <div className="col-span-1">
               <div className="md:h-[500px] md:w-[500px] h-[300px] w-[300px]">
               <img
@@ -182,7 +182,7 @@ const PropertyDetails = () => {
             </div>
             <div className="grid md:col-span-2 grid-rows-3 md:p-10 mt-5 md:m-[-25px] gap-5 w-full">
               {/* amneties */}
-              <div className="rounded-lg shadow-lg bg-gradient-to-r from-slate-700 to-slate-500 text-white p-3 overflow-hidden">
+              <div className="rounded-lg shadow-lg bg-gradient-to-r from-slate-700 to-slate-500 text-white p-3 mr-3">
                 <h1 className="text-2xl font-semibold tracking-wide">
                   Price:{properties.price} Rs.
                 </h1>
@@ -206,7 +206,7 @@ const PropertyDetails = () => {
                 </h2>
               </div>
               {/* address */}
-              <div className="bg-gradient-to-bl from-orange-100 to-green-500 rounded-lg shadow-lg p-3 text-white">
+              <div className="bg-gradient-to-bl from-orange-100 to-green-500 rounded-lg shadow-lg p-3 text-white mr-3">
                 <h3 className="text-md mb-1 underline underline-offset-4">
                   Address
                 </h3>
@@ -225,7 +225,7 @@ const PropertyDetails = () => {
               </div>
 
               {/* contact-section */}
-              <div className="bg-gradient-to-r from-green-600 via-teal-400 to-emerald-200 rounded-lg shadow-lg p-3 text-white">
+              <div className="bg-gradient-to-r from-green-600 via-teal-400 to-emerald-200 rounded-lg shadow-lg p-3 text-white mr-3">
                 <h3 className="text-md mb-1 underline underline-offset-4">
                   Contact Information
                 </h3>
